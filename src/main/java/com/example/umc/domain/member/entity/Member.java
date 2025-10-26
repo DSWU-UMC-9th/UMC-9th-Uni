@@ -29,6 +29,9 @@ public class Member extends BaseEntity {
     @Column(name = "name", length = 3,nullable = false)
     private String name;
 
+    @Column(name="nickname", nullable = false)
+    private String nickname;
+
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
     @Builder.Default
@@ -40,12 +43,18 @@ public class Member extends BaseEntity {
     @Column(name = "address", nullable = false, length = 100)
     private String address;
 
+    @Column(name="phoneNum", length = 12)
+    private String phoneNum;
+
     @Column(name = "prefer_food", nullable = false)
     @Enumerated(EnumType.STRING)
     private FoodType preferFood;
 
     @Column(name = "points")
     private Integer points;
+
+    @Column(name="email")
+    private String email;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

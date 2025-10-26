@@ -2,6 +2,7 @@ package com.example.umc.domain.store.entity;
 
 import com.example.umc.domain.mission.entity.Mission;
 import com.example.umc.domain.review.entity.Review;
+import com.example.umc.domain.store.enums.StoreType;
 import com.example.umc.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,6 +32,10 @@ public class Store extends BaseEntity {
 
     @Column(length = 10, nullable = false)
     private String owner_code;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StoreType storeType;
 
     @OneToMany(mappedBy = "store")
     private List<Review> reviews;
