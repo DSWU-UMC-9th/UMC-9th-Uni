@@ -20,6 +20,6 @@ public class Food {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @OneToMany(mappedBy = "Food")
+    @OneToMany(mappedBy = "food")
     private List<MemberFood> foods = new ArrayList<>();
 }

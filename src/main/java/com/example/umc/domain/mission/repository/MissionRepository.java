@@ -12,13 +12,8 @@ import java.util.List;
 
 public interface MissionRepository extends JpaRepository<Mission, Long> {
     @Query("SELECT new com.example.umc.domain.mission.dto.MissionInfoDTO(" +
-            "mm.mission.id, mm.mission.title, mm.mission.store.storeType, " +
-            "FUNCTION('DATEDIFF', mm.mission.endAt, CURRENT_TIMESTAMP()), " +
-            "mm.mission.content, mm.mission.rewardPoint, TRUE) " +
+            "mm.mission.store.name, mm.mission.rewardPoint, mm.status, mm.mission.content) " +
             "FROM MemberMission mm " +
-            "WHERE mm.member = :member AND mm.status = :status")
+            "WHERE mm.member = :member AND mm.status IN :statuses")
     List<MissionInfoDTO> findChallengingMissionByMemberAndStatus(@Param("member") Member member, @Param("status") MissionStatus status);
-
-    long countByMember(Member member);
-    long countByMemberAndStatus(Member member, MissionStatus status);
 }

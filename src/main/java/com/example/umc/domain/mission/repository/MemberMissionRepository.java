@@ -3,6 +3,7 @@ package com.example.umc.domain.mission.repository;
 import com.example.umc.domain.member.entity.Member;
 import com.example.umc.domain.mission.dto.MyMissionDTO;
 import com.example.umc.domain.mission.entity.MemberMission;
+import com.example.umc.domain.mission.enums.MissionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +18,7 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             "FROM MemberMission mm " +
             "WHERE mm.member = :member ORDER BY mm.id DESC")
     List<MyMissionDTO> findMyMissionByMember(@Param("member")Member member);
+
+    long countByMember(Member member);
+    long countByMemberAndStatus(Member member, MissionStatus status);
 }
