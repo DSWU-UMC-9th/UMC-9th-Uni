@@ -7,12 +7,12 @@ import com.example.umc.domain.review.entity.Review;
 public class ReviewConverter {
     public static ReviewResponseDTO.CreateReview createReview(Review review) {
         return ReviewResponseDTO.CreateReview.builder()
-                .reviewId(review.getId())
+                .memberId(review.getMember().getId())
+                .storeId(review.getStore().getId())
                 .reviewerNickname(review.getMember().getNickname())
                 .writtenAt(review.getCreatedAt())
-                .rating((review.getRating()))
-                .replyContent(review.getReply().getContent())
-                .repliedAt(review.getReply().getCreatedAt())
+                .rating(review.getRating())
+                .content(review.getContent())
                 .build();
     }
 }
