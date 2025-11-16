@@ -21,4 +21,6 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
 
     long countByMember(Member member);
     long countByMemberAndStatus(Member member, MissionStatus status);
+    List<MemberMission> findAllByMemberIdAndStatus(Long memberId, MissionStatus status);
+
 }
