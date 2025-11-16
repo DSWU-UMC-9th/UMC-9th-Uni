@@ -1,20 +1,21 @@
 package com.example.umc.domain.review.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Builder
-@AllArgsConstructor
 public class ReviewResponseDTO {
-    private Long reviewId;
-    private String reviewerNickname;
-    private LocalDateTime writtenAt;
-    private Float rating;
-    private String content;
-    private String replyContent;
-    private LocalDateTime repliedAt;
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CreateReview {
+        private Long memberId;
+        private Long storeId;
+        private String reviewerNickname;
+        private LocalDateTime writtenAt;
+        private Float rating;
+        private String content;
+    }
 }
