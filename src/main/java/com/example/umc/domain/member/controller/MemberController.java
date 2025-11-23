@@ -6,6 +6,7 @@ import com.example.umc.domain.member.dto.MemberResDTO;
 import com.example.umc.domain.member.dto.MyPageDTO;
 import com.example.umc.domain.member.service.code.MemberCommandService;
 import com.example.umc.global.apiPayload.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class MemberController {
 
     @PostMapping("/register")
     public ApiResponse<MemberResDTO.RegisterDTO> register(
-            @RequestBody MemberReqDTO.RegisterDTO dto
+            @RequestBody @Valid MemberReqDTO.RegisterDTO dto
             ) {
         return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberCommandService.register(dto));
     }
