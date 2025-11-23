@@ -1,7 +1,7 @@
 package com.example.umc.domain.review.service;
 
 import com.example.umc.domain.member.entity.Member;
-import com.example.umc.domain.member.repository.MemberRepositiory;
+import com.example.umc.domain.member.repository.MemberRepository;
 import com.example.umc.domain.review.dto.ReviewResponseDTO;
 import com.example.umc.domain.review.entity.Review;
 import com.example.umc.domain.review.repository.ReviewRepository;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
-    private final MemberRepositiory memberRepositiory;
+    private final MemberRepository memberRepositiory;
     private final StoreRepository storeRepository;
 
     @Transactional
