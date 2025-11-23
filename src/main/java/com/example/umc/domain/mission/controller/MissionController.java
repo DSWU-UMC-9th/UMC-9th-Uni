@@ -39,4 +39,14 @@ public class MissionController {
                 )
         );
     }
+
+    @PostMapping("/{missionId}/challenge")
+    public ApiResponse<MissionResDTO.ChallengeResult> challengeMission(
+            @PathVariable Long missionId,
+            @RequestParam("memberId") Long memberId // 실제 환경에서는 인증 정보에서 추출해야 함
+    ) {
+        MissionResDTO.ChallengeResult result = missionService.challengeMission(memberId, missionId);
+
+        return ApiResponse.onSuccess(MissionSuccessCode.MISSION_CHALLENGE_SUCCESS, result);
+    }
 }

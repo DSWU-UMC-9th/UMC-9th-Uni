@@ -35,4 +35,12 @@ public class MissionConverter {
                 .build();
     }
 
+    public static MissionResDTO.ChallengeResult toChallengeResult(MemberMission mm) {
+        return MissionResDTO.ChallengeResult.builder()
+                .memberMissionId(mm.getId())
+                .missionTitle(mm.getMission().getTitle())
+                .status(mm.getStatus().name())
+                .build();
+    }
+
 }
