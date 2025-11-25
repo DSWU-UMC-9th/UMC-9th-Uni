@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum MissionSuccessCode implements BaseSuccessCode {
     MISSION_UPDATE_SUCDESS(HttpStatus.OK, "MISSION200_1", "미션 상태가 성공적으로 변경되었습니다."),
     SUCCESS_GET_MY_MISSION(HttpStatus.OK, "MISSION200_2", "진행 중인 미션 리스트를 성공적으로 불러왔습니다."),
+    MISSION_CHALLENGE_SUCCESS(HttpStatus.CREATED, "MISSION201_1", "가게의 미션을 도전 중인 미션에 추가했습니다.")
     ;
     private final HttpStatus status;
     private final String code;

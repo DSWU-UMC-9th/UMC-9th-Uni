@@ -64,4 +64,12 @@ public class MissionResDTO {
         private List<MissionResDTO.MissionItem> inProgressMissions;
         private List<MissionResDTO.MissionItem> completedMissions;
     }
+
+    @Builder
+    @Getter
+    public static class ChallengeResult {
+        Long memberMissionId;
+        String missionTitle;
+        String status; // PROGRESSING
+    }
 }

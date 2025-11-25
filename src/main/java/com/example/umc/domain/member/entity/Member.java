@@ -1,6 +1,7 @@
 package com.example.umc.domain.member.entity;
 
 
+import com.example.umc.domain.member.enums.Address;
 import com.example.umc.domain.member.enums.FoodType;
 import com.example.umc.domain.mission.entity.MemberMission;
 import com.example.umc.domain.member.enums.Gender;
@@ -41,7 +42,7 @@ public class Member extends BaseEntity {
     private LocalDate birth;
 
     @Column(name = "address", nullable = false, length = 100)
-    private String address;
+    private Address address;
 
     @Column(name="phoneNum", length = 12)
     private String phoneNum;
