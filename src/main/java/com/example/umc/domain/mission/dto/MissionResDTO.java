@@ -72,4 +72,30 @@ public class MissionResDTO {
         String missionTitle;
         String status; // PROGRESSING
     }
+
+    @Builder
+    public record MissionPageDTO (
+            List<MissionResDTO.MissionItem> inProgressMissions,
+            List<MissionResDTO.MissionItem> completedMissions
+    ) {}
+
+    @Builder
+    public record MissionPreViewListDTO(
+            List<MissionResDTO.MissionItem> missionList,
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
+    ) {}
+
+    @Builder
+    public record MyMissionListDTO(
+            MissionPageDTO missions, // 목록 데이터 (진행중, 완료 리스트 포함)
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
+    ) {}
 }

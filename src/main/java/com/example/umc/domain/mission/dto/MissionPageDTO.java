@@ -1,5 +1,6 @@
 package com.example.umc.domain.mission.dto;
 
+import com.example.umc.domain.review.dto.ReviewResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
