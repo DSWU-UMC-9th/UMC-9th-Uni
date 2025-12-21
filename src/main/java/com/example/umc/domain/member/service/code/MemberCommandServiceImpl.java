@@ -7,6 +7,7 @@ import com.example.umc.domain.member.entity.Member;
 import com.example.umc.domain.member.exception.MemberException;
 import com.example.umc.domain.member.repository.MemberRepository;
 import com.example.umc.global.apiPayload.exception.GeneralException;
+import com.example.umc.global.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,8 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
+
 
     // 회원가입
     @Transactional
@@ -60,8 +63,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
             throw new GeneralException(MemberErrorCode.USER_LOGIN_FAILED);
         }
 
-        // 세션 저장
-        session.setAttribute("LOGIN_USER", member.getId());
+        String token = jwtTokenProvider.createToken(member.getId(), member.getEmail());
 
         return MemberResDTO.LoginDTO.builder()
                 .memberId(member.getId())
@@ -70,7 +72,6 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     }
 
     // 로그아웃
-    public void logout(HttpSession session) {
-        session.invalidate();
+    public void logout() {
     }
 }

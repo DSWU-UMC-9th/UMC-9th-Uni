@@ -38,14 +38,15 @@ public class MemberController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<String>> logout(HttpSession session) {
+    public ResponseEntity<ApiResponse<String>> logout() {
 
-        memberCommandService.logout(session);
+        memberCommandService.logout();
 
         return ResponseEntity
                 .status(MemberSuccessCode.AUTH_LOGOUT_SUCCESS.getStatus())
-                .body(ApiResponse.onSuccess(MemberSuccessCode.AUTH_LOGOUT_SUCCESS, "로그아웃 성공"));
+                .body(ApiResponse.onSuccess(MemberSuccessCode.AUTH_LOGOUT_SUCCESS, "로그아웃 완료"));
     }
+
     /**
     @GetMapping("/mypage")
     public ApiResponse<MyPageDTO> getMyPageForCurrentUser(Long memberId) {

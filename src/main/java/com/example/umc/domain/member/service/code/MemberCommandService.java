@@ -7,5 +7,5 @@ import jakarta.servlet.http.HttpSession;
 public interface MemberCommandService {
     MemberResDTO.LoginDTO login(MemberReqDTO.LoginDTO dto, HttpSession session);
     MemberResDTO.RegisterDTO register(MemberReqDTO.RegisterDTO dto);
-    void logout(HttpSession session);
+    void logout();
 }

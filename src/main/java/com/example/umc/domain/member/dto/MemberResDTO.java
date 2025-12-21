@@ -14,6 +14,7 @@ public class MemberResDTO {
     @Builder
     public record LoginDTO(
             Long memberId,
-            String nickname
+            String nickname,
+            String token
     ) {}
 }
