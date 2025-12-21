@@ -2,12 +2,18 @@ package com.example.umc.domain.member.dto;
 
 import lombok.Builder;
 
-import java.time.LocalDateTime;
-
 public class MemberResDTO {
     @Builder
     public record RegisterDTO(
             Long memberId,
-            LocalDateTime createdAt
+            String name,
+            String nickname,
+            String email
+    ) {}
+
+    @Builder
+    public record LoginDTO(
+            Long memberId,
+            String nickname
     ) {}
 }
