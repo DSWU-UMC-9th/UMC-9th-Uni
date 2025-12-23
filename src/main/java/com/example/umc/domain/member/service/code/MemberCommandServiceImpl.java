@@ -1,69 +1,77 @@
 package com.example.umc.domain.member.service.code;
 
-import com.example.umc.domain.member.converter.MemberConverter;
+import com.example.umc.domain.member.code.MemberErrorCode;
 import com.example.umc.domain.member.dto.MemberReqDTO;
 import com.example.umc.domain.member.dto.MemberResDTO;
-import com.example.umc.domain.member.dto.MyPageDTO;
 import com.example.umc.domain.member.entity.Member;
-import com.example.umc.domain.member.entity.MemberFood;
 import com.example.umc.domain.member.exception.MemberException;
-import com.example.umc.domain.member.exception.code.FoodErrorCode;
-import com.example.umc.domain.member.repository.FoodRepository;
-import com.example.umc.domain.member.repository.MemberFoodRepository;
 import com.example.umc.domain.member.repository.MemberRepository;
-import jakarta.transaction.Transactional;
+import com.example.umc.global.apiPayload.exception.GeneralException;
+import com.example.umc.global.jwt.JwtTokenProvider;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberCommandServiceImpl implements MemberCommandService {
 
     private final MemberRepository memberRepository;
-    private final FoodRepository foodRepository;
-    private final MemberFoodRepository memberFoodRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @Override
+
+    // 회원가입
     @Transactional
-    public MemberResDTO.RegisterDTO register(
-            MemberReqDTO.RegisterDTO dto
-    ) {
-        Member member = MemberConverter.toMember(dto);
-        // DB 적용
-        memberRepository.save(member);
+    public MemberResDTO.RegisterDTO register(MemberReqDTO.RegisterDTO dto) {
 
-        // 선호 음식 존재 여부 확인
-        if (dto.preferCategory().size() > 1) {
-            List<MemberFood> memberFoodList = new ArrayList<>();
-
-            // 선호 음식 ID별 조회
-            if (dto.preferCategory().size() > 1) {
-                List<MemberFood> memberFood = dto.preferCategory().stream()
-                        .map(id -> MemberFood.builder()
-                                .member(member)
-                                .food(foodRepository.findById(id)
-                                        .orElseThrow(() -> new MemberException(FoodErrorCode.NOT_FOUND)))
-                                .build()
-                        )
-                        .collect(Collectors.toList());
-
-                memberFoodRepository.saveAll(memberFood);
-            }
+        if (memberRepository.existsByEmail(dto.email())) {
+            throw new MemberException(MemberErrorCode.USER_SIGNUP_FAILED);
         }
 
+        Member member = Member.builder()
+                .name(dto.name())
+                .email(dto.email())
+                .password(passwordEncoder.encode(dto.password()))
+                .nickname(dto.nickname())
+                .gender(dto.gender())
+                .birth(dto.birth())
+                .address(dto.address())
+                .phoneNum(dto.phonenum())
+                .build();
 
-        // 응답 DTO 생성
-        return MemberConverter.toJoinDTO(member);
+        Member saved = memberRepository.save(member);
+
+        return MemberResDTO.RegisterDTO.builder()
+                .memberId(saved.getId())
+                .name(saved.getName())
+                .nickname(saved.getNickname())
+                .email(saved.getEmail())
+                .build();
     }
 
-    public MyPageDTO getMyPageInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+    // 로그인
+    public MemberResDTO.LoginDTO login(MemberReqDTO.LoginDTO dto, HttpSession session) {
 
-        return MemberConverter.toMyPageDTO(member);
+        Member member = memberRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.USER_LOGIN_FAILED));
+
+        if (!passwordEncoder.matches(dto.password(), member.getPassword())) {
+            throw new GeneralException(MemberErrorCode.USER_LOGIN_FAILED);
+        }
+
+        String token = jwtTokenProvider.createToken(member.getId(), member.getEmail());
+
+        return MemberResDTO.LoginDTO.builder()
+                .memberId(member.getId())
+                .nickname(member.getNickname())
+                .build();
+    }
+
+    // 로그아웃
+    public void logout() {
     }
 }

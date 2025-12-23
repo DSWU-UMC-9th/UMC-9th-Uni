@@ -2,20 +2,25 @@ package com.example.umc.domain.member.dto;
 
 import com.example.umc.domain.member.enums.Address;
 import com.example.umc.domain.member.enums.Gender;
-import com.example.umc.global.annotation.ExistFoods;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class MemberReqDTO {
     public record RegisterDTO(
-            String name,
-            Gender gender,
+            @NotBlank String name,
+            @NotBlank String nickname,
+            @NotNull Gender gender,
             LocalDate birth,
             Address address,
-            String specAddress,
+            @NotBlank String email,
+            @NotBlank String password,
+            @NotBlank String phonenum
+    ) {}
 
-            @ExistFoods
-            List<Long> preferCategory
+    public record LoginDTO(
+            @NotBlank String email,
+            @NotBlank String password
     ) {}
 }

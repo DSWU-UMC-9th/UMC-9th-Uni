@@ -57,6 +57,8 @@ public class Member extends BaseEntity {
     @Column(name="email")
     private String email;
 
+    private String password;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
